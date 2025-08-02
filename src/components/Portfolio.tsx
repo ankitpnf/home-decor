@@ -254,10 +254,10 @@ const Portfolio = () => {
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              {Array.from({ length: Math.ceil(projects.length / 3) }).map((_, slideIndex) => (
+              {Array.from({ length: Math.ceil(allProjects.length / 3) }).map((_, slideIndex) => (
                 <div key={slideIndex} className="w-full flex-shrink-0">
                   <div className="grid md:grid-cols-3 gap-8">
-                    {projects.slice(slideIndex * 3, slideIndex * 3 + 3).map((project, index) => (
+                    {allProjects.slice(slideIndex * 3, slideIndex * 3 + 3).map((project, index) => (
                       <div
                         key={index}
                         className="group relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
@@ -298,20 +298,20 @@ const Portfolio = () => {
           {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-amber-500 text-white p-3 rounded-full hover:bg-amber-600 transition-colors shadow-lg"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-amber-500 text-white p-3 rounded-full hover:bg-amber-600 transition-colors shadow-lg z-10"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-amber-500 text-white p-3 rounded-full hover:bg-amber-600 transition-colors shadow-lg"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-amber-500 text-white p-3 rounded-full hover:bg-amber-600 transition-colors shadow-lg z-10"
           >
             <ArrowRight className="h-6 w-6" />
           </button>
 
           {/* Slide Indicators */}
           <div className="flex justify-center mt-8 space-x-2">
-            {Array.from({ length: Math.ceil(projects.length / 3) }).map((_, index) => (
+            {Array.from({ length: Math.ceil(allProjects.length / 3) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
