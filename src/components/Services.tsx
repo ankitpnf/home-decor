@@ -119,7 +119,7 @@ const Services = () => {
       title: "Construction Work",
       description: "Complete construction services from foundation to finishing, ensuring quality and durability in every project.",
       features: ["Residential Construction", "Commercial Buildings", "Renovations", "Structural Work"],
-      image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=600",
       detailedDescription: "SS HomeDecor provides comprehensive construction services with over 10 years of experience in Delhi. From residential homes to commercial buildings, we handle every aspect of construction with precision and quality. Our team of certified professionals ensures that every project meets the highest standards of safety and durability.",
       process: [
         "Initial consultation and site survey",
@@ -141,7 +141,7 @@ const Services = () => {
       title: "Interior Design",
       description: "Transform your spaces with our creative interior design solutions that blend functionality with aesthetics.",
       features: ["Space Planning", "Color Consultation", "Furniture Selection", "Lighting Design"],
-      image: "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=600",
       detailedDescription: "Our interior design team creates stunning, functional spaces that reflect your personality and lifestyle. We work closely with clients to understand their vision and transform it into reality using the latest design trends and high-quality materials.",
       process: [
         "Design consultation and requirement analysis",
@@ -163,7 +163,7 @@ const Services = () => {
       title: "Building Layouts",
       description: "Expert architectural planning and layout design to maximize space efficiency and functionality.",
       features: ["Floor Planning", "3D Visualization", "Space Optimization", "Blueprint Creation"],
-      image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=600",
       detailedDescription: "Our architectural planning services focus on creating optimal layouts that maximize space utilization while ensuring functionality and aesthetic appeal. We use advanced software for precise planning and visualization.",
       process: [
         "Site analysis and measurement",
@@ -185,7 +185,7 @@ const Services = () => {
       title: "Development & Build",
       description: "End-to-end development services bringing your vision from concept to reality with precision.",
       features: ["Project Management", "Quality Control", "Timeline Management", "Cost Optimization"],
-      image: "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "https://images.pexels.com/photos/159045/the-interior-of-the-repair-interior-design-159045.jpeg?auto=compress&cs=tinysrgb&w=600",
       detailedDescription: "Complete development and build services from initial concept to final handover. We manage every aspect of your project, ensuring quality, timeline adherence, and cost optimization throughout the development process.",
       process: [
         "Project planning and feasibility study",

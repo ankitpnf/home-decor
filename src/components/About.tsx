@@ -81,24 +81,24 @@ const About = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <img
-                  src="https://images.pexels.com/photos/2724748/pexels-photo-2724748.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  src="https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=400"
                   alt="Interior design"
                   className="rounded-lg shadow-lg w-full h-48 object-cover"
                 />
                 <img
-                  src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  src="https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=400"
                   alt="Construction work"
                   className="rounded-lg shadow-lg w-full h-64 object-cover"
                 />
               </div>
               <div className="space-y-4 mt-8">
                 <img
-                  src="https://images.pexels.com/photos/2062426/pexels-photo-2062426.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  src="https://images.pexels.com/photos/159045/the-interior-of-the-repair-interior-design-159045.jpeg?auto=compress&cs=tinysrgb&w=400"
                   alt="Modern design"
                   className="rounded-lg shadow-lg w-full h-64 object-cover"
                 />
                 <img
-                  src="https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  src="https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=400"
                   alt="Beautiful interior"
                   className="rounded-lg shadow-lg w-full h-48 object-cover"
                 />
