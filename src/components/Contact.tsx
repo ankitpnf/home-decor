@@ -13,7 +13,22 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create email content
+    // Create WhatsApp message
+    const whatsappMessage = `
+*New Project Inquiry - SS HomeDecor*
+
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone}
+*Service Required:* ${formData.service}
+
+*Project Details:*
+${formData.message}
+
+Please contact me for further discussion.
+    `.trim();
+    
+    // Create email content as backup
     const emailSubject = `New Inquiry from ${formData.name} - ${formData.service}`;
     const emailBody = `
 Name: ${formData.name}
@@ -28,14 +43,29 @@ ${formData.message}
 This inquiry was submitted through the SS HomeDecor website.
     `.trim();
     
-    // Open email client
-    const mailtoLink = `mailto:ssons.homedecore@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    window.open(mailtoLink);
+    // Show options to user
+    const userChoice = confirm(
+      `Thank you for your inquiry, ${formData.name}!\n\n` +
+      `Choose how you'd like to send your message:\n\n` +
+      `Click "OK" to send via WhatsApp (Recommended)\n` +
+      `Click "Cancel" to send via Email`
+    );
     
-    // Show confirmation
-    alert('Thank you for your inquiry! Your email client will open to send the message. You can also call us directly at +91 9582857461 for immediate assistance.');
+    if (userChoice) {
+      // Send via WhatsApp
+      const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(whatsappUrl, '_blank');
+      
+      alert('WhatsApp is opening with your message pre-filled. Just click send to reach us instantly!');
+    } else {
+      // Send via Email
+      const mailtoLink = `mailto:ssons.homedecore@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      window.open(mailtoLink, '_blank');
+      
+      alert('Your email client is opening. If it doesn\'t work, please call us directly at +91 9582857461');
+    }
     
-    // Reset form
+    // Reset form after successful submission
     setFormData({
       name: '',
       email: '',
@@ -123,7 +153,7 @@ This inquiry was submitted through the SS HomeDecor website.
             {/* Call to Action */}
             <div className="bg-gradient-to-r from-amber-500 to-orange-600 p-8 rounded-2xl text-white">
               <h4 className="text-2xl font-bold mb-4">Ready to Get Started?</h4>
-              <p className="mb-6">Call us now for immediate assistance and expert consultation</p>
+              <p className="mb-6">Contact us now for immediate assistance and expert consultation</p>
               <div className="space-y-3">
                 <button 
                   onClick={() => window.open('tel:+919582857461')}
@@ -132,8 +162,14 @@ This inquiry was submitted through the SS HomeDecor website.
                   Call Now: +91 9582857461
                 </button>
                 <button 
+                  onClick={() => window.open('https://wa.me/919582857461?text=Hello! I am interested in your construction and interior design services. Please provide more information.', '_blank')}
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors w-full"
+                >
+                  WhatsApp Us
+                </button>
+                <button 
                   onClick={() => window.open('tel:+918588861491')}
-                  className="bg-white text-amber-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors w-full"
+                  className="bg-white text-amber-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors w-full border-2 border-white"
                 >
                   Alternate: +91 8588861491
                 </button>
@@ -233,11 +269,16 @@ This inquiry was submitted through the SS HomeDecor website.
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-4 px-6 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-4 px-6 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
               >
-                <span>Send Message</span>
+                <span>Send Inquiry</span>
                 <Send className="h-5 w-5" />
               </button>
+              
+              <div className="text-center text-sm text-gray-500 mt-4">
+                <p>We'll respond within 2 hours during business hours</p>
+                <p className="font-semibold text-amber-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+              </div>
             </form>
           </div>
         </div>
