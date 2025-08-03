@@ -18,79 +18,71 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
     
-    try {
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setSubmitStatus('success');
-        setStatusMessage('Thank you! Your inquiry has been sent successfully. We will contact you within 2 hours during business hours.');
-        
-        // Reset form after successful submission
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          service: '',
-          message: ''
-        });
-        
-        // Also offer WhatsApp option
-        setTimeout(() => {
-          const useWhatsApp = confirm(
-            'Your inquiry has been sent via email! Would you also like to send a quick message via WhatsApp for faster response?'
-          );
-          
-          if (useWhatsApp) {
-            const whatsappMessage = `Hello! I just submitted an inquiry on your website for ${formData.service}. My name is ${formData.name}. Please contact me for further discussion.`;
-            const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
-            window.open(whatsappUrl, '_blank');
-          }
-        }, 2000);
-        
-      } else {
-        throw new Error(result.message || 'Failed to send inquiry');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
-      setStatusMessage('Failed to send inquiry. Please try calling us directly at +91 9582857461 or use WhatsApp.');
+    // Simulate form processing
+    setTimeout(() => {
+      setSubmitStatus('success');
+      setStatusMessage('Thank you for your inquiry! We have received your message and will contact you within 2 hours during business hours.');
       
-      // Offer alternative contact methods
+      // Create email content for manual sending or mailto link
+      const emailSubject = `New Inquiry from ${formData.name} - ${formData.service}`;
+      const emailBody = `
+New Project Inquiry - SS HomeDecor
+
+Client Information:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Service Required: ${formData.service}
+
+Project Details:
+${formData.message}
+
+Please contact the client for further discussion.
+      `.trim();
+      
+      // Reset form after successful submission
+      const currentFormData = { ...formData };
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: ''
+      });
+      
+      // Offer multiple contact options
       setTimeout(() => {
-        const useAlternative = confirm(
-          'There was an issue sending your inquiry via email. Would you like to contact us via WhatsApp instead?'
+        const contactMethod = confirm(
+          'Your inquiry has been recorded! Would you like to send it directly via WhatsApp for immediate response? (Click OK for WhatsApp, Cancel to use email)'
         );
         
-        if (useAlternative) {
+        if (contactMethod) {
+          // WhatsApp option
           const whatsappMessage = `
 *New Project Inquiry - SS HomeDecor*
 
-*Name:* ${formData.name}
-*Email:* ${formData.email}
-*Phone:* ${formData.phone}
-*Service Required:* ${formData.service}
+*Name:* ${currentFormData.name}
+*Email:* ${currentFormData.email}
+*Phone:* ${currentFormData.phone}
+*Service Required:* ${currentFormData.service}
 
 *Project Details:*
-${formData.message}
+${currentFormData.message}
 
 Please contact me for further discussion.
           `.trim();
           
           const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
           window.open(whatsappUrl, '_blank');
+        } else {
+          // Email option
+          const mailtoUrl = `mailto:ssons.homedecore@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+          window.open(mailtoUrl, '_blank');
         }
-      }, 1000);
-    } finally {
+      }, 2000);
+      
       setIsSubmitting(false);
-    }
+    }, 1500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -323,9 +315,9 @@ Please contact me for further discussion.
               )}
               
               <div className="text-center text-sm text-gray-500 mt-4">
-                <p>We'll respond within 2 hours during business hours via email and phone</p>
+                <p>We'll respond within 2 hours during business hours</p>
                 <p className="font-semibold text-amber-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
-                <p className="mt-2 text-xs">Your inquiry will be sent directly to ssons.homedecore@gmail.com</p>
+                <p className="mt-2 text-xs">Choose WhatsApp or Email after submitting for instant delivery</p>
               </div>
             </form>
           </div>

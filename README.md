@@ -5,11 +5,11 @@ A professional website for SS HomeDecor - Construction and Interior Design servi
 ## Features
 
 - Modern, responsive design
-- Contact form with email integration
-- Portfolio showcase
-- Service details
-- About section
-- Professional backend for handling inquiries
+- Interactive contact form with multiple contact options
+- Portfolio showcase with detailed project modals
+- Comprehensive service details
+- About section with company achievements
+- Professional design with smooth animations
 
 ## Setup Instructions
 
@@ -18,43 +18,26 @@ A professional website for SS HomeDecor - Construction and Interior Design servi
 npm install
 ```
 
-### 2. Configure Email Settings
-1. Copy the `.env` file and update the email credentials:
-   - Replace `your-gmail@gmail.com` with your actual Gmail address
-   - Replace `your-app-password` with your Gmail App Password
-
-### 3. Get Gmail App Password
-1. Go to your Google Account settings
-2. Select Security
-3. Under "Signing in to Google," select App passwords
-4. Generate a new app password for this application
-5. Use that 16-character password in the `.env` file
-
-### 4. Run the Application
-
-#### Development Mode (Frontend + Backend)
-```bash
-npm run dev:full
-```
-
-#### Frontend Only
+### 2. Run the Application
 ```bash
 npm run dev
 ```
 
-#### Backend Only
-```bash
-npm run server
-```
+## Contact Form Features
 
-## Email Configuration
+The contact form provides multiple ways for customers to reach you:
 
-The contact form sends emails to: `ssons.homedecore@gmail.com`
+1. **WhatsApp Integration**: Direct messaging via WhatsApp for instant communication
+2. **Email Integration**: Opens default email client with pre-filled inquiry details
+3. **Phone Integration**: Direct calling functionality
+4. **Form Validation**: Ensures all required fields are completed
 
-When someone submits the contact form:
-1. An inquiry email is sent to the business owner
-2. A confirmation email is sent to the customer
-3. Both emails are professionally formatted with all the details
+When a customer submits the contact form:
+1. Form data is validated and processed
+2. Customer gets a success message
+3. They can choose to send the inquiry via:
+   - **WhatsApp** (recommended for fastest response)
+   - **Email** (opens their email client with pre-filled content)
 
 ## Contact Information
 
@@ -74,13 +57,54 @@ When someone submits the contact form:
 ## Technology Stack
 
 - **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express
-- **Email**: Nodemailer with Gmail
+- **Icons**: Lucide React
 - **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom gradients and animations
+
+## Key Features
+
+### 🏠 **Hero Section**
+- Compelling headline with company tagline
+- Call-to-action buttons
+- Statistics showcase
+- Professional imagery
+
+### 🔧 **Services Section**
+- Detailed service cards with modals
+- Process explanations
+- Benefits highlighting
+- Direct contact integration
+
+### 👨‍💼 **About Section**
+- Company history and founder information
+- Core values presentation
+- Achievement highlights
+- Professional imagery gallery
+
+### 🎨 **Portfolio Section**
+- Project showcase with image slider
+- Detailed project modals
+- Category filtering
+- Professional project descriptions
+
+### 📞 **Contact Section**
+- Multi-channel contact options
+- Interactive contact form
+- WhatsApp integration
+- Email integration
+- Phone calling functionality
 
 ## Deployment
 
-1. Build the frontend: `npm run build`
-2. Deploy the backend to your preferred hosting service
-3. Update the API endpoint in the frontend code
-4. Configure environment variables on your hosting platform
+1. Build the application: `npm run build`
+2. Deploy the `dist` folder to your preferred hosting service
+3. The application is fully client-side and doesn't require server configuration
+
+## Customization
+
+The website is fully customizable:
+- Update contact information in the Contact component
+- Modify services in the Services component
+- Update portfolio projects in the Portfolio component
+- Change company information in the About component
+- Customize colors and styling in Tailwind CSS classes
