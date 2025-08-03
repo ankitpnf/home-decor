@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,12 +9,68 @@ const Contact = () => {
     service: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
     
-    // Create WhatsApp message
-    const whatsappMessage = `
+    try {
+      const response = await fetch('http://localhost:3001/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitStatus('success');
+        setStatusMessage('Thank you! Your inquiry has been sent successfully. We will contact you within 2 hours during business hours.');
+        
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: ''
+        });
+        
+        // Also offer WhatsApp option
+        setTimeout(() => {
+          const useWhatsApp = confirm(
+            'Your inquiry has been sent via email! Would you also like to send a quick message via WhatsApp for faster response?'
+          );
+          
+          if (useWhatsApp) {
+            const whatsappMessage = `Hello! I just submitted an inquiry on your website for ${formData.service}. My name is ${formData.name}. Please contact me for further discussion.`;
+            const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappUrl, '_blank');
+          }
+        }, 2000);
+        
+      } else {
+        throw new Error(result.message || 'Failed to send inquiry');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+      setStatusMessage('Failed to send inquiry. Please try calling us directly at +91 9582857461 or use WhatsApp.');
+      
+      // Offer alternative contact methods
+      setTimeout(() => {
+        const useAlternative = confirm(
+          'There was an issue sending your inquiry via email. Would you like to contact us via WhatsApp instead?'
+        );
+        
+        if (useAlternative) {
+          const whatsappMessage = `
 *New Project Inquiry - SS HomeDecor*
 
 *Name:* ${formData.name}
@@ -26,53 +82,15 @@ const Contact = () => {
 ${formData.message}
 
 Please contact me for further discussion.
-    `.trim();
-    
-    // Create email content as backup
-    const emailSubject = `New Inquiry from ${formData.name} - ${formData.service}`;
-    const emailBody = `
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Service Required: ${formData.service}
-
-Project Details:
-${formData.message}
-
----
-This inquiry was submitted through the SS HomeDecor website.
-    `.trim();
-    
-    // Show options to user
-    const userChoice = confirm(
-      `Thank you for your inquiry, ${formData.name}!\n\n` +
-      `Choose how you'd like to send your message:\n\n` +
-      `Click "OK" to send via WhatsApp (Recommended)\n` +
-      `Click "Cancel" to send via Email`
-    );
-    
-    if (userChoice) {
-      // Send via WhatsApp
-      const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
-      window.open(whatsappUrl, '_blank');
-      
-      alert('WhatsApp is opening with your message pre-filled. Just click send to reach us instantly!');
-    } else {
-      // Send via Email
-      const mailtoLink = `mailto:ssons.homedecore@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      window.open(mailtoLink, '_blank');
-      
-      alert('Your email client is opening. If it doesn\'t work, please call us directly at +91 9582857461');
+          `.trim();
+          
+          const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
+          window.open(whatsappUrl, '_blank');
+        }
+      }, 1000);
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    // Reset form after successful submission
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      message: ''
-    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -269,15 +287,45 @@ This inquiry was submitted through the SS HomeDecor website.
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-4 px-6 rounded-lg font-semibold hover:from-amber-600 hover:to-orange-700 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+                disabled={isSubmitting}
+                className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl ${
+                  isSubmitting 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700'
+                }`}
               >
-                <span>Send Inquiry</span>
-                <Send className="h-5 w-5" />
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Inquiry</span>
+                    <Send className="h-5 w-5" />
+                  </>
+                )}
               </button>
               
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <p className="text-green-800 text-sm">{statusMessage}</p>
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
+                  <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                  <p className="text-red-800 text-sm">{statusMessage}</p>
+                </div>
+              )}
+              
               <div className="text-center text-sm text-gray-500 mt-4">
-                <p>We'll respond within 2 hours during business hours</p>
+                <p>We'll respond within 2 hours during business hours via email and phone</p>
                 <p className="font-semibold text-amber-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                <p className="mt-2 text-xs">Your inquiry will be sent directly to ssons.homedecore@gmail.com</p>
               </div>
             </form>
           </div>
