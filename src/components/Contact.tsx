@@ -18,71 +18,66 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
     
-    // Simulate form processing
-    setTimeout(() => {
-      setSubmitStatus('success');
-      setStatusMessage('Thank you for your inquiry! We have received your message and will contact you within 2 hours during business hours.');
-      
-      // Create email content for manual sending or mailto link
-      const emailSubject = `New Inquiry from ${formData.name} - ${formData.service}`;
-      const emailBody = `
-New Project Inquiry - SS HomeDecor
-
-Client Information:
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Service Required: ${formData.service}
-
-Project Details:
-${formData.message}
-
-Please contact the client for further discussion.
-      `.trim();
-      
-      // Reset form after successful submission
-      const currentFormData = { ...formData };
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: ''
+    try {
+      // Send to backend server
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        setStatusMessage(result.message);
+        
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: ''
+        });
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+      setStatusMessage('Failed to send inquiry via email. Please try calling us directly at +91 9582857461 or use WhatsApp for immediate assistance.');
       
-      // Offer multiple contact options
+      // Offer WhatsApp as fallback
       setTimeout(() => {
-        const contactMethod = confirm(
-          'Your inquiry has been recorded! Would you like to send it directly via WhatsApp for immediate response? (Click OK for WhatsApp, Cancel to use email)'
+        const useWhatsApp = confirm(
+          'Email sending failed. Would you like to send your inquiry via WhatsApp instead for immediate response?'
         );
         
-        if (contactMethod) {
-          // WhatsApp option
+        if (useWhatsApp) {
           const whatsappMessage = `
 *New Project Inquiry - SS HomeDecor*
 
-*Name:* ${currentFormData.name}
-*Email:* ${currentFormData.email}
-*Phone:* ${currentFormData.phone}
-*Service Required:* ${currentFormData.service}
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone}
+*Service Required:* ${formData.service}
 
 *Project Details:*
-${currentFormData.message}
+${formData.message}
 
 Please contact me for further discussion.
           `.trim();
           
           const whatsappUrl = `https://wa.me/919582857461?text=${encodeURIComponent(whatsappMessage)}`;
           window.open(whatsappUrl, '_blank');
-        } else {
-          // Email option
-          const mailtoUrl = `mailto:ssons.homedecore@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-          window.open(mailtoUrl, '_blank');
         }
       }, 2000);
-      
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
